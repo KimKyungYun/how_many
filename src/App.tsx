@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect,  useRef,  useState } from 'react'
 import './App.css'
 
 function App() {
-  const [time,setTime]=useState(`${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`)
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [time, setTime] = useState(`${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`)
 
+  console.log('time:', time);
   
   useEffect(() => {
     const interval = setInterval(() => {
@@ -11,7 +13,7 @@ function App() {
     }, 1000);
 
     return () => clearInterval(interval);
-  },[])
+  }, [])
   
   const [method, setMethod] = useState('today')
   
@@ -19,25 +21,30 @@ function App() {
     const list = time.split(':');
     const passedTIme = ((Number(list[0]) - 9) + ((Number(list[1])) / 60) + ((Number(list[2])) / 3600)) / 9;
     
-    if (method === 'today') return (Math.floor(passedTIme*10000000)/100000).toFixed(5);
-    return ( new Date().getDay()-1 + passedTIme)>5?5:(Math.floor( (new Date().getDay()-1 + passedTIme)*2000000)/100000).toFixed(5);
-    
+    if (method === 'today') return (Math.floor(passedTIme * 10000000) / 100000).toFixed(5);
+    return (new Date().getDay() - 1 + passedTIme) > 5 ? 5 : (Math.floor((new Date().getDay() - 1 + passedTIme) * 2000000) / 100000).toFixed(5);
   }
-
+  useEffect(() => {
+    if (time === '17:59:53'&&audioRef.current) {
+      
+      audioRef.current.play()
+    }
+  }, [time])
+  
   return (
     <>
       <div>
        
       </div>
       <h1>집에 가고싶다</h1>
-      <h2>{method==='today'?'오늘':'이번주'} 얼마나 남았지..</h2>
+      <h2>{method === 'today' ? '오늘' : '이번주'} 얼마나 남았지..</h2>
       <div className='method'>
         <label htmlFor="today">
-          <input id='today' type="radio" name='method' value='today' defaultChecked onClick={()=>setMethod('today')}/>
+          <input id='today' type="radio" name='method' value='today' defaultChecked onClick={() => setMethod('today')} />
           오늘
         </label>
         <label htmlFor="thisweek">
-          <input id='thisweek' type="radio" name='method' value='week' onClick={()=>setMethod('week')}/>
+          <input id='thisweek' type="radio" name='method' value='week' onClick={() => setMethod('week')} />
           이번주
         </label>
       </div>
@@ -64,6 +71,7 @@ function App() {
           )}
         </select>
       </div>      */}
+     <audio src="/timeout.mp3" ref={audioRef} ></audio>
       <div>{handleTime()}% 완료</div>
     </>
   )
