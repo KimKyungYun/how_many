@@ -1,20 +1,29 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
+  const [time,setTime]=useState('')
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const hour=new Date().getHours()
+      const minute=new Date().getMinutes()
+      const second=new Date().getSeconds()
+      setTime(`${hour}:${minute}:${second}`)
+    }, 1000);
+
+    return () => clearInterval(interval);
+  },[])
+  
   const [method, setMethod] = useState('today')
-  const [data, setData] = useState({ week: 0, hour:0,minute:0})
-
+  
   const handleTime = () => {
-    const time = (data.hour + data.minute / 60)/9;
-    const percentage = data.week + (time > 1 ? 1 : time);
+    const list = time.split(':');
+    const passedTIme = ((Number(list[0]) - 9) + ((Number(list[1])) / 60) + ((Number(list[2])) / 3600)) / 9;
 
-    if (method === 'today') {
-      return Math.round(time * 10000) / 100;
-    }
-
-    return Math.round(percentage*2000)/100      
-
+    if (method === 'today') return Math.floor(passedTIme*10000)/100;
+    return ( new Date().getDay() + passedTIme)>5?5:Math.floor( (new Date().getDay() + passedTIme)*2000)/100;
+    
   }
 
   return (
@@ -34,7 +43,7 @@ function App() {
           이번주
         </label>
       </div>
-      <select className='week' name="week" id="" disabled={method==='today'} onChange={(e)=>setData(prev=>({...prev,week:Number(e.target.value)}))}>
+      {/* <select className='week' name="week" id="" disabled={method==='today'} onChange={(e)=>setData(prev=>({...prev,week:Number(e.target.value)}))}>
         <option value={0}>월</option>
         <option value={1}>화</option>
         <option value={2}>수</option>
@@ -56,7 +65,7 @@ function App() {
             <option key={index} value={index}>{index}분</option>
           )}
         </select>
-      </div>     
+      </div>      */}
       <div>{handleTime()}% 완료</div>
     </>
   )
