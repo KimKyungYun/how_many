@@ -2,14 +2,12 @@ import { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
-  const [time,setTime]=useState('')
+  const [time,setTime]=useState(`${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`)
 
+  
   useEffect(() => {
     const interval = setInterval(() => {
-      const hour=new Date().getHours()
-      const minute=new Date().getMinutes()
-      const second=new Date().getSeconds()
-      setTime(`${hour}:${minute}:${second}`)
+      setTime(`${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`)
     }, 1000);
 
     return () => clearInterval(interval);
