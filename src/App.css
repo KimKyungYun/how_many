@@ -5,6 +5,21 @@
   text-align: center;
 }
 
+.method {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.method label{
+  width: 70px;
+  box-sizing: border-box;
+  border: 1px solid #222222;
+  padding: 5px 0;
+  cursor: pointer;
+}
+
 .week{
   width: 150px;
   text-align: center;

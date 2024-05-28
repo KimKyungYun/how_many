@@ -2,17 +2,20 @@ import { useState } from 'react'
 import './App.css'
 
 function App() {
+  const [method, setMethod] = useState('today')
   const [data, setData] = useState({ week: 0, hour:0,minute:0})
-  console.log('data:', data);
 
   const handleTime = () => {
     const time = (data.hour + data.minute / 60)/9;
-    console.log('time:', time);
     const percentage = data.week + (time > 1 ? 1 : time);
-    console.log('percentage:', percentage);
-    return Math.round(percentage*2000)/100
+
+    if (method === 'today') {
+      return Math.round(time * 10000) / 100;
+    }
+
+    return Math.round(percentage*2000)/100      
+
   }
-  console.log('handleTime:', handleTime());
 
   return (
     <>
@@ -20,7 +23,18 @@ function App() {
        
       </div>
       <h1>집에 가고싶다</h1>
-      <select className='week' name="week" id="" onChange={(e)=>setData(prev=>({...prev,week:Number(e.target.value)}))}>
+      <h2>{method==='today'?'오늘':'이번주'} 얼마나 남았지..</h2>
+      <div className='method'>
+        <label htmlFor="today">
+          <input id='today' type="radio" name='method' value='today' defaultChecked onClick={()=>setMethod('today')}/>
+          오늘
+        </label>
+        <label htmlFor="thisweek">
+          <input id='thisweek' type="radio" name='method' value='week' onClick={()=>setMethod('week')}/>
+          이번주
+        </label>
+      </div>
+      <select className='week' name="week" id="" disabled={method==='today'} onChange={(e)=>setData(prev=>({...prev,week:Number(e.target.value)}))}>
         <option value={0}>월</option>
         <option value={1}>화</option>
         <option value={2}>수</option>
@@ -39,7 +53,7 @@ function App() {
         </select>
         <select name="minute" id="" value={data.minute} onChange={(e)=>setData(prev=>({...prev,minute:Number(e.target.value)}))}>
           {Array.from({ length: 60 }).map((_, index) =>
-            <option value={index}>{index}분</option>
+            <option key={index} value={index}>{index}분</option>
           )}
         </select>
       </div>     
