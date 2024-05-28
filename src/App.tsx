@@ -19,8 +19,8 @@ function App() {
     const list = time.split(':');
     const passedTIme = ((Number(list[0]) - 9) + ((Number(list[1])) / 60) + ((Number(list[2])) / 3600)) / 9;
 
-    if (method === 'today') return Math.floor(passedTIme*10000000)/100000;
-    return ( new Date().getDay() + passedTIme)>5?5:Math.floor( (new Date().getDay() + passedTIme)*2000000)/100000;
+    if (method === 'today') return (Math.floor(passedTIme*10000000)/100000).toFixed(5);
+    return ( new Date().getDay() + passedTIme)>5?5:(Math.floor( (new Date().getDay() + passedTIme)*2000000)/100000).toFixed(5);
     
   }
 
