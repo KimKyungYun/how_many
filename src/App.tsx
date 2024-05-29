@@ -4,8 +4,16 @@ import './App.css'
 function App() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [time, setTime] = useState(`${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`)
+  const [method, setMethod] = useState('today');
 
-  console.log('time:', time);
+  const handleTime = () => {
+    const list = time.split(':');
+    const passedTIme =(Number(list[0]) - 9)>=0? ((Number(list[0]) - 9) + ((Number(list[1])) / 60) + ((Number(list[2])) / 3600)) / 9:0;
+    
+    if (method === 'today') return passedTIme>1?100:(Math.floor(passedTIme * 10000000) / 100000).toFixed(5);
+    return (new Date().getDay() - 1 + passedTIme) > 5 ? 5 : (Math.floor((new Date().getDay() - 1 + passedTIme) * 2000000) / 100000).toFixed(5);
+  }
+  
   
   useEffect(() => {
     const interval = setInterval(() => {
@@ -15,15 +23,7 @@ function App() {
     return () => clearInterval(interval);
   }, [])
   
-  const [method, setMethod] = useState('today')
   
-  const handleTime = () => {
-    const list = time.split(':');
-    const passedTIme = ((Number(list[0]) - 9) + ((Number(list[1])) / 60) + ((Number(list[2])) / 3600)) / 9;
-    
-    if (method === 'today') return (Math.floor(passedTIme * 10000000) / 100000).toFixed(5);
-    return (new Date().getDay() - 1 + passedTIme) > 5 ? 5 : (Math.floor((new Date().getDay() - 1 + passedTIme) * 2000000) / 100000).toFixed(5);
-  }
   useEffect(() => {
     if (time === '17:59:53'&&audioRef.current) {
       
@@ -71,7 +71,8 @@ function App() {
           )}
         </select>
       </div>      */}
-     <audio src="/timeout.mp3" ref={audioRef} ></audio>
+      <audio src="/timeout.mp3" ref={audioRef} ></audio>
+      {Number(handleTime())>100&&<div style={{ color: '#ff0000', fontSize: '20px', fontWeight: '600' }}>초과근무</div>}
       <div>{handleTime()}% 완료</div>
     </>
   )
