@@ -25,7 +25,7 @@ function App() {
   
   
   useEffect(() => {
-    if (time === '17:59:53'&&audioRef.current) {
+    if (time === '17:59:52'&&audioRef.current) {
       
       audioRef.current.play()
     }
