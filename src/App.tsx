@@ -5,6 +5,7 @@ function App() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [time, setTime] = useState(`${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`)
   const [method, setMethod] = useState('today');
+  console.log('time:', time);
 
   const handleTime = () => {
     const list = time.split(':');
@@ -25,7 +26,7 @@ function App() {
   
   
   useEffect(() => {
-    if (time === '17:59:52'&&audioRef.current) {
+    if (time === '17:46:52'&&audioRef.current) {
       
       audioRef.current.play()
     }
