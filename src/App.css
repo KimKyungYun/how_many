@@ -20,13 +20,6 @@
   cursor: pointer;
 }
 
-.week{
-  width: 150px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 500;
-  box-sizing: border-box;
-}
 
 @keyframes logo-spin {
   from {
@@ -43,24 +36,30 @@
   }
 }
 
-.time {
+.weeks{
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin: 10px 0;
-  gap: 10px;
-}
-.time select{
-  width: 70px; 
-  font-size: 20px;
-  font-weight: 500;
+  margin: 20px 0;
+  gap: 5px;
+
 }
 
-.time input{
-  width: 150px;
-  text-align: center;
-  box-sizing: border-box;
+.weeks-default {
+  border: 2px solid #dddddd;
+  background-color: #ffffff;
+  color: #666666;
+  outline: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-.read-the-docs {
-  color: #888;
+
+.weeks-active{
+  border: 2px solid #339afa;
+  background-color: #f4faff;
+  color: #1e62a2;
 }
