@@ -18,11 +18,12 @@ function App() {
 		수: true,
 		목: true,
 		금: true,
-  });
+	});
 
-  const passedDay=(Object.values(activeDate).slice(0,(new Date().getDay()-1>0?new Date().getDay()-1:0)).filter(value=>value).length);
-  
-  
+	const passedDay = Object.values(activeDate)
+		.slice(0, new Date().getDay() - 1 > 0 ? new Date().getDay() - 1 : 0)
+		.filter((value) => value).length;
+
 	const audioRef = useRef<HTMLAudioElement>(null);
 	const [time, setTime] = useState(
 		`${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
@@ -31,26 +32,34 @@ function App() {
 
 	const handleTime = () => {
 		const list = time.split(':');
-    const passedTIme =
-      (activeDate[DAY_NAMES[new Date().getDay()] as keyof WeekType])?
-			(Number(list[0]) - 9 >= 0
-				? (Number(list[0]) -
-						9 +
-						Number(list[1]) / 60 +
-						Number(list[2]) / 3600) /
-				9
-				: 0):0;
+		const passedTime = () => {
+			if (activeDate[DAY_NAMES[new Date().getDay()] as keyof WeekType]) {
+				if (Number(list[0]) >= 18) return 1;
+				if (Number(list[0]) >= 9) {
+					return (
+						(Number(list[0]) -
+							9 +
+							Number(list[1]) / 60 +
+							Number(list[2]) / 3600) /
+						9
+					);
+				}
+			}
+			return 0;
+		};
 
-    if (method === 'today') {      
-			return passedTIme > 1
-				? 100
-				: (Math.floor(passedTIme * 10000000) / 100000).toFixed(5);
-    }
-    return passedDay + passedTIme > Object.values(activeDate).filter(value => value).length
-			? Object.values(activeDate).filter(value => value).length
+		if (method === 'today') {
+			return (Math.floor(passedTime() * 10000000) / 100000).toFixed(5);
+		}
+
+		return passedDay + (passedTime() >= 1 ? 1 : passedTime()) >
+			Object.values(activeDate).filter((value) => value).length
+			? Object.values(activeDate).filter((value) => value).length
 			: (
-					Math.floor((passedDay + passedTIme) * 10000000)/Object.values(activeDate).filter(value => value).length / 100000
-			).toFixed(5);
+					Math.floor((passedDay + passedTime()) * 10000000) /
+					Object.values(activeDate).filter((value) => value).length /
+					100000
+			  ).toFixed(5);
 	};
 
 	useEffect(() => {
@@ -101,11 +110,17 @@ function App() {
 			<div className='weeks'>
 				{WEEKS.map((value) => (
 					<button
-						className={`weeks-default ${activeDate[value as keyof WeekType] && 'weeks-active'  }`
-							
+						className={`weeks-default ${
+							activeDate[value as keyof WeekType] && 'weeks-active'
+							}`}
+						key={value}
+						type='button'
+						onClick={() =>
+							setActiveDate((prev) => ({
+								...prev,
+								[value]: !prev[value as keyof WeekType],
+							}))
 						}
-            type='button'
-            onClick={()=>setActiveDate(prev=>({...prev,[value]:!prev[value as keyof WeekType]}))}
 					>
 						{value}
 					</button>
@@ -113,9 +128,9 @@ function App() {
 			</div>
 
 			<audio src='/timeout.mp3' ref={audioRef}></audio>
-			{Number(handleTime()) > 100 && (
+			{Number(handleTime()) === 100 && (
 				<div style={{ color: '#ff0000', fontSize: '20px', fontWeight: '600' }}>
-					초과근무
+					퇴근이다!
 				</div>
 			)}
 			<div>{handleTime()}% 완료</div>

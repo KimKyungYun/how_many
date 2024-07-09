@@ -1,5 +1,5 @@
 #root {
-  max-width: 1280px;
+  width: 100vw;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -13,11 +13,16 @@
 }
 
 .method label{
-  width: 70px;
   box-sizing: border-box;
   border: 1px solid #222222;
-  padding: 5px 0;
+  padding: 5px 10px;
   cursor: pointer;
+}
+
+.method input{
+  text-wrap: nowrap;
+
+  
 }
 
 
@@ -37,6 +42,7 @@
 }
 
 .weeks{
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
