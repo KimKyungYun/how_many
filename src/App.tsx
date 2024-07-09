@@ -58,8 +58,7 @@ function App() {
 			: (
 					Math.floor((passedDay + passedTime()) * 10000000) /
 					Object.values(activeDate).filter((value) => value).length /
-					100000
-			  ).toFixed(5);
+					100000).toFixed(5);
 	};
 
 	useEffect(() => {
@@ -112,7 +111,7 @@ function App() {
 					<button
 						className={`weeks-default ${
 							activeDate[value as keyof WeekType] && 'weeks-active'
-							}`}
+						}`}
 						key={value}
 						type='button'
 						onClick={() =>
