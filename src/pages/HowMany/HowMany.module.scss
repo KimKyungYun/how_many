@@ -1,10 +1,11 @@
-#root {
+.template {
   width: 100vw;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-
 .method {
   display: flex;
   justify-content: center;
@@ -12,19 +13,16 @@
   margin: 10px 0;
 }
 
-.method label{
+.method label {
   box-sizing: border-box;
   border: 1px solid #222222;
   padding: 5px 10px;
   cursor: pointer;
 }
 
-.method input{
+.method input {
   text-wrap: nowrap;
-
-  
 }
-
 
 @keyframes logo-spin {
   from {
@@ -41,14 +39,13 @@
   }
 }
 
-.weeks{
+.weeks {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 20px 0;
   gap: 5px;
-
 }
 
 .weeks-default {
@@ -63,9 +60,28 @@
   cursor: pointer;
 }
 
-
-.weeks-active{
+.weeks-active {
   border: 2px solid #339afa;
   background-color: #f4faff;
   color: #1e62a2;
+}
+
+.range {
+  display: flex;
+  gap: 10px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 700;
+    font-size: 18px;
+    gap: 5px;
+  }
+
+  input {
+    padding: 5px 10px;
+    font-size: 16px;
+    font-weight: 500;
+  }
 }
